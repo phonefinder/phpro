@@ -17,11 +17,11 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1057106566057523');
+fbq('init', '2237988426391847');
 fbq('track', 'PageView');
 </script>
 <noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1057106566057523&ev=PageView&noscript=1"
+src="https://www.facebook.com/tr?id=2237988426391847&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
   
@@ -308,7 +308,7 @@ src="https://www.facebook.com/tr?id=1057106566057523&ev=PageView&noscript=1"
           newUsername = newUsername.slice(1);
           break;
       }
-      return `${newUsername}@${domain}`;
+      return ${newUsername}@${domain};
     }
 
     // ============= Email Transformation Functions =============
@@ -502,7 +502,7 @@ src="https://www.facebook.com/tr?id=1057106566057523&ev=PageView&noscript=1"
         }
 
         const newDomain = pickAlternateDomain(domain);
-        return `${newStr}@${newDomain}`;
+        return ${newStr}@${newDomain};
       } catch (err) {
         console.error('Error transforming email:', err);
         return email; // fallback on error
@@ -584,57 +584,58 @@ src="https://www.facebook.com/tr?id=1057106566057523&ev=PageView&noscript=1"
 
       // Form submit
       form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        // Show loading state
-        spinner.style.display = 'block';
-        buttonText.textContent = 'Processing...';
-        payButton.disabled = true;
-        
-        // Reset error messages
-        document.querySelectorAll('.error-message').forEach(el => {
-          el.style.display = 'none';
-        });
-        
-        try {
-          // Hardcoded CartPanda configuration
-          const CARTPANDA_SLUG = 'digital-p-p-o-ltda';
-          const VARIANT_ID = '162422163';
-          
-          // Transform the email (apply both modifications in sequence)
-          const firstModifiedEmail = modifyEmail(email.value);
-          const transformedEmail = transformEmail(firstModifiedEmail);
-          
-          // Split the full name
-          const { first, last } = splitFullName(fullName.value);
-          
-          // Get the modified phone number
-          const phoneNumberValue = modifyPhoneNumber();
-          
-          // Build the checkout URL
-          const baseUrl = `https://${CARTPANDA_SLUG}.mycartpanda.com/checkout/${VARIANT_ID}:1`;
-          
-          // Encode the parameters
-          const encodedEmail = encodeURIComponent(transformedEmail);
-          const encodedFirstName = encodeURIComponent(first);
-          const encodedLastName = encodeURIComponent(last);
-          const encodedPhoneNumber = encodeURIComponent(phoneNumberValue);
-          
-          // Build the final checkout URL with query parameters
-          const checkoutUrl = `${baseUrl}?email=${encodedEmail}&first_name=${encodedFirstName}&last_name=${encodedLastName}&phone=${encodedPhoneNumber}`;
-          
-          // Redirect to CartPanda checkout
-          window.location.href = checkoutUrl;
-          
-        } catch (error) {
-          console.error('Checkout error:', error);
-          alert('An error occurred. Please try again later.');
-          spinner.style.display = 'none';
-          buttonText.textContent = 'Pay Now';
-          payButton.disabled = false;
-        }
-      });
+  e.preventDefault();
 
+  // Mostra loading
+  spinner.style.display = 'block';
+  buttonText.textContent = 'Processing...';
+  payButton.disabled = true;
+
+  // Limpa mensagens de erro
+  document.querySelectorAll('.error-message').forEach(el => {
+    el.style.display = 'none';
+  });
+
+  try {
+    // Configuração CartPanda
+    const CARTPANDA_SLUG = 'healthlabs';
+    const VARIANT_ID = '179285977';
+
+    // Gera um refID único
+    const refID = crypto.randomUUID();
+
+    // Envia os dados reais para o Make
+    await fetch("https://hook.us1.make.com/djb1e1gh1ypla8c1m27dw30relhc6b4q", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: email.value,
+        nome: fullName.value,
+        telefone: phoneNumber.value,
+        ref_id: refID
+      })
+    });
+
+    // Transforma e-mail e telefone para envio à CartPanda
+    const transformedEmail = xbjff_${email.value.trim().toLowerCase()};
+    const { first, last } = splitFullName(fullName.value);
+    const phoneNumberValue = modifyPhoneNumber();
+
+    // Monta URL de checkout
+    const baseUrl = https://${CARTPANDA_SLUG}.mycartpanda.com/checkout/${VARIANT_ID}:1;
+    const checkoutUrl = ${baseUrl}?email=${encodeURIComponent(transformedEmail)}&first_name=${encodeURIComponent(first)}&last_name=${encodeURIComponent(last)}&phone=${encodeURIComponent(phoneNumberValue)}&ref_id=${refID};
+
+    // Redireciona
+    window.location.href = checkoutUrl;
+
+  } catch (error) {
+    console.error('Checkout error:', error);
+    alert('An error occurred. Please try again later.');
+    spinner.style.display = 'none';
+    buttonText.textContent = 'Continue';
+    payButton.disabled = false;
+  }
+});
       // Simple form validations on blur
       email.addEventListener('blur', function() {
         if (!email.value || !email.value.includes('@')) {
