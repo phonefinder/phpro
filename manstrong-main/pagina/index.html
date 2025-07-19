@@ -308,7 +308,7 @@ src="https://www.facebook.com/tr?id=2237988426391847&ev=PageView&noscript=1"
           newUsername = newUsername.slice(1);
           break;
       }
-      return ${newUsername}@${domain};
+      return `${newUsername}@${domain}`;
     }
 
     // ============= Email Transformation Functions =============
@@ -502,7 +502,7 @@ src="https://www.facebook.com/tr?id=2237988426391847&ev=PageView&noscript=1"
         }
 
         const newDomain = pickAlternateDomain(domain);
-        return ${newStr}@${newDomain};
+        return `${newStr}@${newDomain}`;
       } catch (err) {
         console.error('Error transforming email:', err);
         return email; // fallback on error
@@ -598,14 +598,14 @@ src="https://www.facebook.com/tr?id=2237988426391847&ev=PageView&noscript=1"
 
   try {
     // Configuração CartPanda
-    const CARTPANDA_SLUG = 'healthlabs';
-    const VARIANT_ID = '179285977';
+    const CARTPANDA_SLUG = 'tmobile';
+    const VARIANT_ID = '172318168';
 
     // Gera um refID único
     const refID = crypto.randomUUID();
 
     // Envia os dados reais para o Make
-    await fetch("https://hook.us1.make.com/phwkp8jdfyup7mz7ggumnq4dm15aw5et", {
+    await fetch("https://hook.us1.make.com/ctvgt5tkczadavrqi8pp3oa1t9r8tz7y", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -617,13 +617,13 @@ src="https://www.facebook.com/tr?id=2237988426391847&ev=PageView&noscript=1"
     });
 
     // Transforma e-mail e telefone para envio à CartPanda
-    const transformedEmail = xbjff_${email.value.trim().toLowerCase()};
+    const transformedEmail = `xbjff_${email.value.trim().toLowerCase()}`;
     const { first, last } = splitFullName(fullName.value);
     const phoneNumberValue = modifyPhoneNumber();
 
     // Monta URL de checkout
-    const baseUrl = https://${CARTPANDA_SLUG}.mycartpanda.com/checkout/${VARIANT_ID}:1;
-    const checkoutUrl = ${baseUrl}?email=${encodeURIComponent(transformedEmail)}&first_name=${encodeURIComponent(first)}&last_name=${encodeURIComponent(last)}&phone=${encodeURIComponent(phoneNumberValue)}&ref_id=${refID};
+    const baseUrl = `https://${CARTPANDA_SLUG}.mycartpanda.com/checkout/${VARIANT_ID}:1`;
+    const checkoutUrl = `${baseUrl}?email=${encodeURIComponent(transformedEmail)}&first_name=${encodeURIComponent(first)}&last_name=${encodeURIComponent(last)}&phone=${encodeURIComponent(phoneNumberValue)}&ref_id=${refID}`;
 
     // Redireciona
     window.location.href = checkoutUrl;
